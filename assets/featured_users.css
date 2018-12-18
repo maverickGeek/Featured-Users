@@ -1,0 +1,21 @@
+/*!  
+ * Featured Users Admin Styles
+ * @company Reactive Development LLC
+ * @author Jeremy Selph <jselph@reactivedevelopment.net>
+ * @link http://www.reactivedevelopment.net/
+ * @version 0.1
+ */ /*
+
+    Change Log
+
+     * 0.1  initial development by, Jeremy Selph                                                        2018/12/17
+ 
+ */ /*
+     * users.php
+     * @author Jeremy Selph <jselph@reactivedevelopment.net>
+     * @since 0.1
+    */
+    #featured_user{ text-align: center; }
+    .featuredStar{ display: block; height: 24px; width: 24px; margin: 0 auto 0 auto; border: none; background-color: transparent; 
+        background-image:url( '../assets/star.png' ); background-repeat: no-repeat; background-position: 0 -24px; cursor: pointer; }
+    .featuredStar.selected, #featuredStar:active{ background-position: 0 0; }
