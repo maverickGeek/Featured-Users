@@ -26,7 +26,8 @@
 	Credits
 
 	 * Plugin Development by Jeremy Selph @ Reactive Development LLC
-	 * Star image is from: http://www.iconfinder.com/icondetails/9662/24/bookmark_star_icon and http://www.iconfinder.com/icondetails/9604/24/star_icon
+	 * Star image is from: http://www.iconfinder.com/icondetails/9662/24/bookmark_star_icon and 
+	 * http://www.iconfinder.com/icondetails/9604/24/star_icon
  
  	Change Log
 	
@@ -53,7 +54,9 @@
 
     Filters to hook into
 
-	 * 01. FILTER : 
+	 * 01. 	FILTER : return_featured_users_args [https://codex.wordpress.org/Class_Reference/WP_User_Query]
+	 * 02.	FILTER : featured-users-css [url to css file]
+	 * 02.	FILTER : featured-users-JS [url to js file]
 
     Plugin Class
 
@@ -63,6 +66,13 @@
      * @access public
     */
 	class rdFeaturedUsers {
+
+		/**
+		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5 
+    	 * @access public
+	    */
+		public $_option_name = 'rd-featured-users';
 
 		/**
 		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
@@ -79,6 +89,13 @@
 		public $_meta_value = 'yes';
 
 		/**
+		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5 
+    	 * @access public
+	    */
+		public $_settings = false;
+
+		/**
 		 * Static property to hold class instance
 		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5
@@ -93,21 +110,47 @@
     	 * @version 1.5
     	 * @access public
 	    */
-		public function __construct(){
+		public function __construct( $child = false ){
 
-			/**
-			 * Actions/Filters
-			 * @author Jeremy Selph <jselph@reactivedevelopment.net>
-			 * @since 1.5
-			*/
-			add_action( 'show_user_profile', array( $this, 'add_checkBox_to_profile' ), 10, 1 );
-			add_action( 'edit_user_profile', array( $this, 'add_checkBox_to_profile' ), 10, 1 );
-			add_action( 'personal_options_update', array( $this, 'profile_update_featured_meta' ), 10, 1 );
-			add_action( 'edit_user_profile_update', array( $this, 'profile_update_featured_meta' ), 10, 1 );
-			add_filter( 'manage_users_columns', array( $this, 'add_featured_column' ), 10, 1 );
-			add_filter( 'manage_users_custom_column', array( $this, 'featured_column_content' ), 10, 3 );
-			add_action( 'admin_enqueue_scripts', array( $this, 'add_featured_column_css_js' ), 10, 1 );
-			add_action( 'wp_ajax_featured_users', array( $this, 'ajax_save_featured_user' ) );
+			$this->_plugin_url = plugin_dir_url( __FILE__ );
+			$this->_plugin_dir = plugin_dir_path( __FILE__ );
+
+			if ( !$child ){
+				
+				/**
+				 * Actions/Filters
+				 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+				 * @since 1.5
+				*/
+				add_action( 'show_user_profile', array( $this, 'add_checkBox_to_profile' ), 10, 1 );
+				add_action( 'edit_user_profile', array( $this, 'add_checkBox_to_profile' ), 10, 1 );
+				add_action( 'personal_options_update', array( $this, 'profile_update_featured_meta' ), 10, 1 );
+				add_action( 'edit_user_profile_update', array( $this, 'profile_update_featured_meta' ), 10, 1 );
+				add_filter( 'manage_users_columns', array( $this, 'add_featured_column' ), 10, 1 );
+				add_filter( 'manage_users_custom_column', array( $this, 'featured_column_content' ), 10, 3 );
+				add_action( 'admin_enqueue_scripts', array( $this, 'add_featured_column_css_js' ), 10, 1 );
+				add_action( 'wp_ajax_featured_users', array( $this, 'ajax_save_featured_user' ) );
+				
+				/**
+				 * Addons
+				 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+				 * @since 1.5
+				*/
+				require_once( $this->_plugin_dir . 'inc/shortcode.php' );
+				require_once( $this->_plugin_dir . 'inc/widget.php' );
+
+				/**
+				 * Addons for admin area
+				 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+				 * @since 1.5
+				*/
+				if ( is_admin() ){ 
+					
+					require_once( $this->_plugin_dir . 'inc/settings.php' );
+				
+				}
+
+			}
 
 		}
 
@@ -134,12 +177,17 @@
 	    */
 	    public function return_featured_users( $max = 1000 ){
 			return new WP_User_Query(				
-				array( 
+				apply_filters(
+
+					'return_featured_users_args',
+					array( 
 					
-					'meta_key' => $this->_meta_name,
-					'meta_value' => $this->_meta_value,
-					'number' => $max
-					
+						'meta_key' => $this->_meta_name,
+						'meta_value' => $this->_meta_value,
+						'number' => $max
+						
+					)
+
 				)
 			);
 		}
@@ -241,7 +289,7 @@
 	    */
 	    public function add_checkBox_to_profile( $user ){
 				
-			$isFeatured	= $this->is_user_featured( $user ); ?>			
+			$isFeatured	= $this->is_user_featured( $user ); ?>
 			<h3><?php _e( 'Featured Setting' ); ?></h3>
 			<table class="form-table">
 		
@@ -304,7 +352,7 @@
                 wp_enqueue_style( 
 					
 					'featured-users-css',
-					plugin_dir_url( __FILE__ ) . 'assets/featured_users.css',
+					apply_filters( 'featured-users-css', plugin_dir_url( __FILE__ ) . 'assets/featured_users.css' ),
 					array(),
 					'0.1'
 				
@@ -318,7 +366,7 @@
                 wp_enqueue_script( 
 					
 					'featured-users-js', 
-					plugin_dir_url( __FILE__ ) . 'assets/featured_users.js',
+					apply_filters( 'featured-users-js', plugin_dir_url( __FILE__ ) . 'assets/featured_users.js' ),
 					array( 'jquery' ),
 					'0.1', 
 					true
