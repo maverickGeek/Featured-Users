@@ -44,8 +44,7 @@
 
     Shortcodes
 
-	 * 01. 	[rd-featured-users max="Max amount of users to return"]
-	 * 02. 	[rd-featured-users-widget]
+	 * 01. 	[rd-featured-users role="{roles of users to include}" avatar="include user avatar" max="max number or user to return"]
 
     Theme functions
 
@@ -56,7 +55,9 @@
 
 	 * 01. 	FILTER : return_featured_users_args [https://codex.wordpress.org/Class_Reference/WP_User_Query]
 	 * 02.	FILTER : featured-users-css [url to css file]
-	 * 02.	FILTER : featured-users-JS [url to js file]
+	 * 03.	FILTER : featured-users-JS [url to js file]
+	 * 04. 	FILTER : featured_user_shortcode_row [user row in shortcode and widget]
+	 * 05. 	FILTER : featured_user_shortcode_return [shortcode and widget content]
 
     Plugin Class
 
@@ -175,8 +176,8 @@
 		 * @version 1.5
 	     * @access public
 	    */
-	    public function return_featured_users( $max = 1000 ){
-			return new WP_User_Query(				
+	    public function return_featured_users( $roles = false, $avatar = 'no', $max = 1000 ){
+			return new WP_User_Query(
 				apply_filters(
 
 					'return_featured_users_args',

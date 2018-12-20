@@ -10,10 +10,6 @@
     Change Log
 
      * 0.1 	initial plugin development by, Jeremy Selph http://www.reactivedevelopment.net/ 		    2018/12/17
-	 
-	 Filters to hook into
-
- 	 * 01.  
 
     Plugin Class
 
@@ -156,7 +152,7 @@
                                                     echo '<option value="' . $key . '"' . $checked . '>' . $name . '</option>';
                                                     
                                                 } ?>
-                                                </select>                                            
+                                                </select>
                                             </td>
                                         </tr>
 
