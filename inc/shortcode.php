@@ -73,7 +73,7 @@
                             if ( strtolower( $atts[ 'avatar' ] ) == 'yes' ){ $return .= get_avatar( $u->ID. 16 ) . ' '; }
                             $return .= apply_filters(
 
-                                'featured_user_shortcode_row',
+                                'featured-user-shortcode-row',
                                 get_the_author_meta( 'display_name', $u->ID ) . ' (' . count_user_posts( $u->ID ) . ')',
                                 $u->ID
                                 
@@ -83,7 +83,7 @@
                     $return .= '</li>';
                 } $return .= '</ul>';
             
-            } return apply_filters( 'featured_user_shortcode_return', $return, $users );
+            } return apply_filters( 'featured-user-shortcode-return', $return, $users );
 
         }
 

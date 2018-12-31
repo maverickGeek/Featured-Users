@@ -31,6 +31,7 @@
  
  	Change Log
 	
+	 * 2.0	Finished 2.0 development, testing and documentation. 										2018/12/31
 	 * 1.6 	Added new functions rd_is_user_featured() and rd_featured_users() 							2018/12/17
 	 * 1.5 	Re-developed by, Jeremy Selph http://www.reactivedevelopment.net/							2018/12/17
 	 * 1.0 	Released to WordPress.
@@ -40,11 +41,13 @@
 
 	 * 01. 	Visit 'Plugins > Add New'
 	 * 02. 	Search for 'Featured Users'
-	 * 03. 	Activate Featured Users from your Plugins page.
+	 * 03.	Click on 'Install Now'
+	 * 04. 	Activate the Featured Users plugin.
+	 * 05. 	Go to 'Settings > Featured Users' and modify.
 
     Shortcodes
 
-	 * 01. 	[rd-featured-users role="{roles of users to include}" avatar="include user avatar" max="max number or user to return"]
+	 * 01. 	[rd-featured-users role="{comma separated roles of users to include}" avatar="yes|no" max="int"]
 
     Theme functions
 
@@ -53,11 +56,11 @@
 
     Filters to hook into
 
-	 * 01. 	FILTER : return_featured_users_args [https://codex.wordpress.org/Class_Reference/WP_User_Query]
+	 * 01. 	FILTER : featured-users-args [https://codex.wordpress.org/Class_Reference/WP_User_Query]
 	 * 02.	FILTER : featured-users-css [url to css file]
 	 * 03.	FILTER : featured-users-JS [url to js file]
-	 * 04. 	FILTER : featured_user_shortcode_row [user row in shortcode and widget]
-	 * 05. 	FILTER : featured_user_shortcode_return [shortcode and widget content]
+	 * 04. 	FILTER : featured-user-shortcode-row [user row in shortcode and widget]
+	 * 05. 	FILTER : featured-user-shortcode-return [shortcode and widget content]
 
     Plugin Class
 
@@ -270,7 +273,7 @@
 			 * @author Jeremy Selph <jselph@reactivedevelopment.net>
 			 * @version 1.5
 			*/
-			return new WP_User_Query( apply_filters( 'return_featured_users_args', $user_args ) );
+			return new WP_User_Query( apply_filters( 'featured-users-args', $user_args ) );
 
 		}
 
