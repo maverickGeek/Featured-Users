@@ -67,7 +67,7 @@
 		 * @version 1.5
 	     * @access public
 	    */
-        public function settings_link( $plugin_meta, $plugin_file ) {
+        public function settings_link( $plugin_meta, $plugin_file ){
 			if ( $this->_plugin_base === $plugin_file ){
 
 				$plugin_meta[] = sprintf(

@@ -11,6 +11,11 @@
 
      * 0.1 	initial plugin development by, Jeremy Selph http://www.reactivedevelopment.net/ 		    2018/12/17
 
+    Filters to hook into
+
+	 * 01. 	FILTER : featured-user-shortcode-row [user row in shortcode and widget]
+	 * 02. 	FILTER : featured-user-shortcode-return [shortcode and widget content]
+
     Plugin Class
 
      * @package featuredUsersShortcode

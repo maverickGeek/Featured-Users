@@ -2,11 +2,10 @@
  *
  * Plugin Name:   	Featured Users
  * Plugin URI:    	http://www.reactivedevelopment.net/featured-users
- * Description:   	Adds the ability to set a user's custom meta filed called "jsfeatured_user".
+ * Description:   	Adds the ability to set a user's custom meta field called "jsfeatured_user".
  * Version:       	2.0
  * Author:        	Jeremy Selph @ Reactive Development LLC
- * Author URI:    	http://www.reactivedevelopment.net/
- * 
+ * Author URI:    	http://www.reactivedevelopment.net/ * 
  * License:       	GPL v3
  * License URI:   	http://www.gnu.org/licenses/gpl-3.0.en.html
  * 
@@ -59,8 +58,8 @@
 	 * 01. 	FILTER : featured-users-args [https://codex.wordpress.org/Class_Reference/WP_User_Query]
 	 * 02.	FILTER : featured-users-css [url to css file]
 	 * 03.	FILTER : featured-users-JS [url to js file]
-	 * 04. 	FILTER : featured-user-shortcode-row [user row in shortcode and widget]
-	 * 05. 	FILTER : featured-user-shortcode-return [shortcode and widget content]
+	 * 04. 	FILTER : [inc/shortcode.php] featured-user-shortcode-row [user row in shortcode and widget]
+	 * 05. 	FILTER : [inc/shortcode.php] featured-user-shortcode-return [shortcode and widget content]
 
     Plugin Class
 
@@ -95,9 +94,9 @@
 		/**
 		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5 
-    	 * @access public
+    	 * @access protected
 	    */
-		public $_settings = false;
+		protected $_settings = false;
 
 		/**
 		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
@@ -109,16 +108,16 @@
 		/**
 		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5 
-    	 * @access public
+    	 * @access private
 	    */
-		public $_plugin_dir = false;
+		private $_plugin_dir = false;
 
 		/**
 		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5 
-    	 * @access public
+    	 * @access protected
 	    */
-		public $_plugin_base = false;
+		protected $_plugin_base = false;
 
 		/**
 		 * Static property to hold class instance
@@ -281,9 +280,9 @@
 		 * @package allowed_roles
 	     * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5
-	     * @access public
+	     * @access private
 	    */
-	    public function allowed_roles(){
+	    private function allowed_roles(){
 			if ( isset( $this->_settings[ 'feat_role' ] ) && !empty( $this->_settings[ 'feat_role' ] ) ){
 
 				return $this->_settings[ 'feat_role' ];
@@ -318,9 +317,9 @@
 		 * @package save_featured_users
 	     * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5
-	     * @access public
+	     * @access private
 	    */
-	    public function save_featured_users( $users = false ){
+	    private function save_featured_users( $users = false ){
 			
 			$return = $user_ids = array();
 			$user_ids = ( !empty( $users ) && !is_array( $users ) ) ? array( $users ) : $users;
@@ -359,9 +358,9 @@
 		 * @package delete_featured_user
 	     * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5
-	     * @access public
+	     * @access private
 	    */
-	    public function delete_featured_user( $user = false ){
+	    private function delete_featured_user( $user = false ){
 			
 			$user_id = ( is_object( $user ) && isset( $user->ID ) ) ? intval( $user->ID ) : intval( $user );
 			if ( $user_id > 0 ){
