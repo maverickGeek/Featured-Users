@@ -84,34 +84,34 @@
             
             $title = ! empty( $instance['title'] ) ? $instance['title'] : ''; ?>
             <p class="feat_users_p">
-                <label class="feat_users_title" for="<?php echo $this->get_field_id( 'title' ); ?>">Widget title:</label>
+                <label class="feat_users_title" for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Widget title' ); ?>:</label>
                 <input class="feat_users_title" type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $title ); ?>" />
             </p>
 
     <?php   $featuredUsers = rdFeaturedUsers::getInstance();
-            $plugin_settings = get_option( $featuredUsers->_option_name, array( 'feat-role' => '' ) );
-            $allowed = $plugin_settings[ 'feat_role' ];
             $roles = ! empty( $instance['roles'] ) ? explode( ',', $instance['roles'] ) : array(); ?>
             <p class="feat_users_p">
-                <label class="feat_users_roles" for="<?php echo $this->get_field_id( 'roles' ); ?>">Roles of users to include:</label>
+                <label class="feat_users_roles" for="<?php echo $this->get_field_id( 'roles' ); ?>"><?php _e( 'Roles of users to display' ); ?>:</label>
                 <select class="feat_users_roles" multiple="multiple" name="<?php echo $this->get_field_id( 'roles' ); ?>[]" id="<?php echo $this->get_field_id( 'roles' ); ?>">
         <?php   $editable_roles = array_reverse( get_editable_roles() );
                 foreach ( $editable_roles as $role => $details ){
+                    
                     $key = esc_attr( $role );
-                    if( in_array( $key, $allowed ) ){
+                    if( $featuredUsers->is_role_allowed( $key ) ){
                     
                         $name = translate_user_role( $details['name'] );
                         $checked = ( in_array( $key, $roles ) ) ? ' selected="selected"' : '';
                         echo '<option value="' . $key . '"' . $checked . '>' . $name . '</option>';
                     
                     }
+
                 } ?>
                 </select>
             </p>
             
     <?php   $avatar = ! empty( $instance['avatar'] ) ? $instance['avatar'] : ''; ?>
             <p class="feat_users_p">
-                <label class="feat_users_avatar" for="<?php echo $this->get_field_id( 'avatar' ); ?>">include avatar images:</label>
+                <label class="feat_users_avatar" for="<?php echo $this->get_field_id( 'avatar' ); ?>"><?php _e( 'Include avatar images' ); ?>:</label>
                 <select class="feat_users_avatar" id="<?php echo $this->get_field_id( 'avatar' ); ?>" name="<?php echo $this->get_field_name( 'avatar' ); ?>">
                     <option<?php if( $avatar == 'No' ){ ?> selected="selected"<? } ?>>No</option>
                     <option<?php if( $avatar == 'Yes' ){ ?> selected="selected"<? } ?>>Yes</option>
@@ -120,10 +120,10 @@
     
     <?php   $max = ! empty( $instance['max'] ) ? $instance['max'] : ''; ?>
             <p class="feat_users_p">
-                <label class="feat_users_max" for="<?php echo $this->get_field_id( 'max' ); ?>">Max users to query:</label>
+                <label class="feat_users_max" for="<?php echo $this->get_field_id( 'max' ); ?>"><?php _e( 'Max users to query' ); ?>:</label>
                 <input class="feat_users_max" type="text" id="<?php echo $this->get_field_id( 'max' ); ?>" name="<?php echo $this->get_field_name( 'max' ); ?>" value="<?php echo esc_attr( $max ); ?>" />
             </p>
-            <p class="feat_users_p">This widget displays all of your featured users in a one-column list.</p>
+            <p class="feat_users_p"><?php _e( 'This widget displays all of your featured users in a one-column list' ) ?>.</p>
     
     <?php }
         

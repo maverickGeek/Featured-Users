@@ -45,6 +45,7 @@
             add_action( 'admin_init', array( $this, 'register_options' ) );
             add_action( 'admin_menu', array( $this, 'add_page' ) );
             add_action( 'admin_head', array( $this, 'add_featured_settings_css' ) );
+            add_filter( 'plugin_row_meta', array( $this, 'settings_link' ), 5, 2 );
 
         }
 
@@ -59,6 +60,24 @@
             register_setting( $this->_option_name . '-options', $this->_option_name );
 
         }
+
+	    /**
+		 * @package settings_link
+	     * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5
+	     * @access public
+	    */
+        public function settings_link( $plugin_meta, $plugin_file ) {
+			if ( $this->_plugin_base === $plugin_file ){
+
+				$plugin_meta[] = sprintf(
+					'<a href="%s">%s</a>',
+					admin_url( 'options-general.php?page=rd-featured-users' ),
+					esc_html__( 'Settings' )
+				);
+
+			} return $plugin_meta;
+		}
 
 	    /**
 		 * @package add_featured_settings_css
@@ -325,7 +344,7 @@
 
                             <p>For questions or free support and after reading the documentaion on this page go <strong><a href="https://wordpress.org/support/plugin/featured-users-wordpress-plugin" target="_blank">here</strong></a>. Otherwise...</p>
                             <p><img class="supportImg" src="<?php echo $this->_plugin_url . 'assets/support.jpg'; ?>" alt="<?php _e( 'Need support' ); ?>"></p>
-                            <p><strong>For paid or immediate support please go <a href="https://www.reactivedevelopment.net/contact/project-mind/" target="_blank">here</a> to submit a request.</strong></p>
+                            <p><strong>For paid or immediate support please go <a href="https://www.reactivedevelopment.net/contact/project-mind/?plugin=featured-users" target="_blank">here</a> to submit a request.</strong></p>
 
                         </div>
                     </div>

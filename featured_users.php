@@ -4,7 +4,7 @@
  * Plugin URI:    	http://www.reactivedevelopment.net/featured-users
  * Description:   	Adds the ability to set a user's custom meta filed called "jsfeatured_user".
  * Version:       	2.0
- * Author:        	Reactive Development LLC
+ * Author:        	Jeremy Selph @ Reactive Development LLC
  * Author URI:    	http://www.reactivedevelopment.net/
  * 
  * License:       	GPL v3
@@ -97,6 +97,27 @@
 		public $_settings = false;
 
 		/**
+		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5 
+    	 * @access public
+	    */
+		public $_plugin_url = false;
+
+		/**
+		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5 
+    	 * @access public
+	    */
+		public $_plugin_dir = false;
+
+		/**
+		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5 
+    	 * @access public
+	    */
+		public $_plugin_base = false;
+
+		/**
 		 * Static property to hold class instance
 		 * @author Jeremy Selph <jselph@reactivedevelopment.net>
 		 * @version 1.5
@@ -115,9 +136,22 @@
 
 			$this->_plugin_url = plugin_dir_url( __FILE__ );
 			$this->_plugin_dir = plugin_dir_path( __FILE__ );
-
-			if ( !$child ){
+			$this->_plugin_base = plugin_basename( __FILE__ );
 				
+			/**
+			 * Populate settings
+			 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+			 * @since 1.5
+			*/
+			$this->_settings = get_option( $this->_option_name );
+
+			/**
+			 * only do the following when the parent class is loaded
+			 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+			 * @since 1.5
+			*/
+			if ( !$child ){
+
 				/**
 				 * Actions/Filters
 				 * @author Jeremy Selph <jselph@reactivedevelopment.net>
@@ -131,6 +165,7 @@
 				add_filter( 'manage_users_custom_column', array( $this, 'featured_column_content' ), 10, 3 );
 				add_action( 'admin_enqueue_scripts', array( $this, 'add_featured_column_css_js' ), 10, 1 );
 				add_action( 'wp_ajax_featured_users', array( $this, 'ajax_save_featured_user' ) );
+				add_filter( 'plugin_row_meta', array( $this, 'support_link' ), 10, 2 );
 				
 				/**
 				 * Addons
@@ -145,14 +180,34 @@
 				 * @author Jeremy Selph <jselph@reactivedevelopment.net>
 				 * @since 1.5
 				*/
-				if ( is_admin() ){ 
-					
-					require_once( $this->_plugin_dir . 'inc/settings.php' );
-				
-				}
+				if ( is_admin() ){ require_once( $this->_plugin_dir . 'inc/settings.php' ); }
 
 			}
 
+		}
+
+		/**
+		 * @package support_link
+	     * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5
+	     * @access public
+	    */
+	    public function support_link( $plugin_meta, $plugin_file ){
+			if ( $this->_plugin_base === $plugin_file ) {
+
+				$plugin_meta[] = sprintf(
+					'&#36; <a href="%s" target="_blank">%s</a>',
+					'https://www.reactivedevelopment.net/contact/project-mind/?plugin=featured-users',
+					esc_html__( 'Paid support' )
+				);
+
+				$plugin_meta[] = sprintf(
+					'&hearts; <a href="%s" target="_blank">%s</a>',
+					'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RESFMU9LDAEDQ&source=url',
+					esc_html__( 'Donate' )
+				);
+
+			} return $plugin_meta;
 		}
 
 	    /**
@@ -177,20 +232,83 @@
 	     * @access public
 	    */
 	    public function return_featured_users( $roles = false, $avatar = 'no', $max = 1000 ){
-			return new WP_User_Query(
-				apply_filters(
-
-					'return_featured_users_args',
-					array( 
+			
+			$allowed_roles = false;
+			$roles = ( $roles && !is_array( $roles ) && strpos( $roles, ',' ) ) ? explode( ',', $roles ) : array( $roles );
+			$user_args = array( 
 					
-						'meta_key' => $this->_meta_name,
-						'meta_value' => $this->_meta_value,
-						'number' => $max
-						
-					)
-
-				)
+				'meta_key' => $this->_meta_name,
+				'meta_value' => $this->_meta_value,
+				'number' => $max
+				
 			);
+			
+			/**
+			 * confirm the roles given are allowed by our settings
+			 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+			 * @version 1.5
+			*/
+			if ( $roles && count( $roles ) > 0 ){
+
+				$allowed_roles = array();
+				foreach( $roles as $r ){
+					if ( $this->is_role_allowed( $r ) ){ $allowed_roles[] = $r; }
+				}
+				
+			}
+
+			/**
+			 * if no roles were given and we have roles in our settings lets use them
+			 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+			 * @version 1.5
+			*/
+			$allowed_roles = ( !$allowed_roles ) ? $this->allowed_roles() : $allowed_roles;
+			if ( count( $allowed_roles ) > 0 ){ $user_args[ 'role__in' ] = $allowed_roles; }
+
+			/**
+			 * query the db for featured users
+			 * @author Jeremy Selph <jselph@reactivedevelopment.net>
+			 * @version 1.5
+			*/
+			return new WP_User_Query( apply_filters( 'return_featured_users_args', $user_args ) );
+
+		}
+
+	    /**
+		 * @package allowed_roles
+	     * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5
+	     * @access public
+	    */
+	    public function allowed_roles(){
+			if ( isset( $this->_settings[ 'feat_role' ] ) && !empty( $this->_settings[ 'feat_role' ] ) ){
+
+				return $this->_settings[ 'feat_role' ];
+
+			} return array();
+		}
+
+	    /**
+		 * @package is_role_allowed
+	     * @author Jeremy Selph <jselph@reactivedevelopment.net>
+		 * @version 1.5
+	     * @access public
+	    */
+	    public function is_role_allowed( $roles = array() ){
+			
+			$roles = ( !is_array( $roles ) ) ? array( $roles ) : $roles;
+			$allowed_roles = $this->allowed_roles();
+			$role_allowed = ( count( $allowed_roles ) > 0 ) ? false : true;			
+			if ( !$role_allowed && count( $roles ) > 0 ){
+				foreach( $roles as $r ){
+					if ( in_array( $r, $allowed_roles ) ){
+						
+						$role_allowed = true;
+					
+					}
+				}
+			} return $role_allowed;
+
 		}
 
 	    /**
@@ -213,10 +331,17 @@
 				foreach( $user_ids as $u ){
 
 					$id = intval( $u );
-					if ( $id > 0 ){ 
+					$user_meta = $role_allowed = false;
+					if ( $id > 0 ){
 						
-						update_user_meta( $id, $this->_meta_name, $this->_meta_value );
-						$return[] = $id;
+						$user_meta = get_userdata( $id );
+						$role_allowed = $this->is_role_allowed( $user_meta->roles );
+						if ( $role_allowed ){
+						
+							update_user_meta( $id, $this->_meta_name, $this->_meta_value );
+							$return[] = $id;
+
+						}
 					
 					}
 
@@ -289,9 +414,10 @@
 	     * @access public
 	    */
 	    public function add_checkBox_to_profile( $user ){
-				
-			$isFeatured	= $this->is_user_featured( $user ); ?>
-			<h3><?php _e( 'Featured Setting' ); ?></h3>
+			
+			$isFeatured	= $this->is_user_featured( $user );
+			if ( $this->is_role_allowed( $user->roles ) ){ ?>
+			<h3><?php _e( 'Feature User' ); ?></h3>
 			<table class="form-table">
 		
 				<tr>
@@ -305,6 +431,7 @@
 				</tr>
 		
 			</table><br /><?php
+			}
 			
 		}
 
@@ -328,10 +455,16 @@
 	     * @access public
 	    */
 	    public function featured_column_content( $empty, $column_name, $user_id ){
-			if( $column_name == 'featured_user' ) {				
+			if( $column_name == 'featured_user' ){
 				
-				$class =  ( $this->is_user_featured( $user_id ) ) ? ' selected' : '';
-				return  '<a id="userFeatured_'.$user_id.'" href="#" class="featuredStar'.$class.'"></a>';
+				$user_meta = get_userdata( $user_id );
+				$role_allowed = $this->is_role_allowed( $user_meta->roles );
+				if ( $role_allowed ){
+						
+					$class =  ( $this->is_user_featured( $user_id ) ) ? ' selected' : '';
+					return  '<a id="userFeatured_'.$user_id.'" href="#" class="featuredStar'.$class.'"></a>';
+
+				}
 					
 			}
 		}
