@@ -113,8 +113,8 @@
             <p class="feat_users_p">
                 <label class="feat_users_avatar" for="<?php echo $this->get_field_id( 'avatar' ); ?>"><?php _e( 'Include avatar images' ); ?>:</label>
                 <select class="feat_users_avatar" id="<?php echo $this->get_field_id( 'avatar' ); ?>" name="<?php echo $this->get_field_name( 'avatar' ); ?>">
-                    <option<?php if( $avatar == 'No' ){ ?> selected="selected"<? } ?>>No</option>
-                    <option<?php if( $avatar == 'Yes' ){ ?> selected="selected"<? } ?>>Yes</option>
+                    <option<?php if( $avatar == 'No' ){ ?> selected="selected"<?php } ?>>No</option>
+                    <option<?php if( $avatar == 'Yes' ){ ?> selected="selected"<?php } ?>>Yes</option>
                 </select>
             </p>
     
