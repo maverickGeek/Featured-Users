@@ -24,9 +24,31 @@ For WordPress plugin and custom theme development request’s [email us at info@
 1. Activate the Featured Users plugin.
 1. Go to 'Settings > Featured Users' and modify.
 
+### How to
+
+After activating and after updating the plugin's settings go to wp-admin > Users > All Users and feature a few users. To use the 'Featured Users' plugin edit a page and add the 'Featured Users' shortcode or update a sidebar and add the 'Featured Users' widget.
+
+#### Shortcode Paramaters
+
+[rd-featured-users role="administrator,author" avatar="yes" max="100"]
+
+* role = A comma separated list of roles of trhe users you want to include in the query. Note the settings page can override this. The default is all roles again unless the settings page specifies which to allow.
+* avatar = Options are yes or no, specify whether to show or not show the users avatar image. The default is no.
+* max = The maximum number of users to display.
+
+#### Filters
+
+WordPress filters allow a 'developer' to modify aspects of the 'Featured Users' plugin without editing the core plugin. If you are not familiar with filters [please read this](https://codex.wordpress.org/Plugin_API) before continuing.
+
+1. 'featured-users-args', https://codex.wordpress.org/Class_Reference/WP_User_Query
+1. 'featured-users-css', url to css file
+1. 'featured-users-JS', url to js file
+1. 'featured-user-shortcode-row', user row in shortcode and widget
+1. 'featured-user-shortcode-return', shortcode and widget content
+
 ### Frequently Asked Questions
 
-Let me know what questions you have!
+Let us know what questions you have!
 
 ### Support
 
