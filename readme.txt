@@ -64,7 +64,7 @@ For WordPress plugin and custom theme development request’s [email us at info@
 
 == Screenshots ==
 
-1. screenshot-1.(png|jpg)
-1. screenshot-2.(png|jpg)
-1. screenshot-3.(png|jpg)
-1. screenshot-4.(png|jpg)
+1. screenshot-1.jpg
+1. screenshot-2.jpg
+1. screenshot-3.jpg
+1. screenshot-4.jpg
