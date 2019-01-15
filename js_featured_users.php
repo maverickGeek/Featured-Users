@@ -5,7 +5,7 @@
  * Description:   	Adds the ability to set a user's custom meta field called "jsfeatured_user".
  * Version:       	2.1
  * Author:        	Jeremy Selph @ Reactive Development LLC
- * Author URI:    	http://www.reactivedevelopment.net/ * 
+ * Author URI:    	http://www.reactivedevelopment.net/
  * License:       	GPL v3
  * License URI:   	http://www.gnu.org/licenses/gpl-3.0.en.html
  * 

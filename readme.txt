@@ -66,3 +66,37 @@ For custom WordPress plugin and theme development requests email us at [info@rea
 1. screenshot-2.jpg
 1. screenshot-3.jpg
 1. screenshot-4.jpg
+
+== Changelog ==
+
+= 2.1 =
+
+Release Date: 2019/01/14
+
+* Updated settings page content, see inc/settings.php. Updated readmes as well.
+
+= 2.0 =
+
+Release Date: 2018/12/31
+
+* Finished 2.0 development, testing and documentation.
+
+= 1.6 =
+
+Release Date: 2018/12/17
+
+* Added new functions rd_is_user_featured() and rd_featured_users()
+
+= 1.5 =
+
+Release Date: 2018/12/17
+
+* Re-developed by, Jeremy Selph http://www.reactivedevelopment.net/							
+
+= 1.0 =
+
+* Released to WordPress.
+
+= 0.1 =
+
+* initial plugin development by, Jeremy Selph http://www.reactivedevelopment.net/
