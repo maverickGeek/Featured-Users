@@ -3,7 +3,7 @@
  * Plugin Name:   	Featured Users
  * Plugin URI:    	http://www.reactivedevelopment.net/featured-users
  * Description:   	Adds the ability to set a user's custom meta field called "jsfeatured_user".
- * Version:       	2.0
+ * Version:       	2.1
  * Author:        	Jeremy Selph @ Reactive Development LLC
  * Author URI:    	http://www.reactivedevelopment.net/ * 
  * License:       	GPL v3
@@ -30,6 +30,7 @@
  
  	Change Log
 	
+	 * 2.1 	Updated settings page content, see inc/settings.php. Updated readmes as well. 				2019/01/14
 	 * 2.0	Finished 2.0 development, testing and documentation. 										2018/12/31
 	 * 1.6 	Added new functions rd_is_user_featured() and rd_featured_users() 							2018/12/17
 	 * 1.5 	Re-developed by, Jeremy Selph http://www.reactivedevelopment.net/							2018/12/17

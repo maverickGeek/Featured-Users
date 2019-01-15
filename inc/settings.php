@@ -5,10 +5,11 @@
  * @author Jeremy Selph <jselph@reactivedevelopment.net>
  * @link http://www.reactivedevelopment.net/
  * @license GPLv3
- * @version 0.1
+ * @version 0.2
 
     Change Log
 
+     * 0.2  Updated page content text, needed proof-reading and added shortode example.                 2019/01/15
      * 0.1 	initial plugin development by, Jeremy Selph http://www.reactivedevelopment.net/ 		    2018/12/17
 
     Plugin Class
@@ -108,7 +109,8 @@
         /**
          * @package page_content
          * @author Jeremy Selph <jselph@reactivedevelopment.net>
-         * @version 0.1
+         * @version 0.2
+         * @since 0.1
          * @access public
         */
         public function page_content(){
@@ -124,25 +126,26 @@
                     <div class="meta-box-sortables ui-sortable"><div class="postbox">    
                         <div class="inside">
 
-                            <p>While working on a custom WordPress theme we needed the ability to feature users / authors. So we created this plugin which allows the administrator to easily star (featured) users. Then using a custom query in the theme we where able to get only the featured users by retrieving users with the custom user meta &quot;jsfeatured_user&quot;. The plugin dosent make any chanages to your current theme it only does the following:</p>
+                            <p><?php _e( 'While working on a custom WordPress theme we needed the ability to feature users and authors. So we created this ‘Featured users’ plugin which allows the administrator to easily star (feature) users. Then using a custom query in the theme, shortcode or widget; featured users can be displayed by only retrieving users with the custom user meta `jsfeatured_user`. The plugin does not make any changes to your current theme it only does the following:' ); ?></p>
                             <ol>
-                                <li>Adds a featured column in the Users panel of the WordPress Admin</li>
-                                <li>When a user is featured the plugin adds or updates aa custom field &quot;jsfeatured_user&quot; and sets the value to yes.</li>
-                                <li>Adds a custom widget that can be used in WordPress sidebars</li>
-                                <li>Adds a shortcode that can be added to theme files or in content.</li>
+                                <li><?php _e( 'Adds a featured column in the Users panel of the WordPress Admin.' ); ?></li>
+                                <li><?php _e( 'When a user is featured the plugin adds or updates the custom field ‘jsfeatured_user’ and sets the value to yes.' ); ?></li>
+                                <li><?php _e( 'Provides custom widget that echoes out shortcode.' ); ?></li>
+                                <li><?php _e( 'Provides custom shortcode that echoes ul list of featured users.' ); ?></li>
+                                <li><?php _e( 'Includes theme functions and filters for developers.' ); ?></li>
                             </ol>
-                            <p>Feel free to use and include this plugin in your WordPress Installs and consider us if you need a custom theme or plugin developed.</p>
-                            <p>For custom Plugin and Theme development requets email us at <a href="mailto:info@reactivedevelopment.net">info@reactivedevelopment.net</a> or go <a href="http://www.reactivedevelopment.net/" target="_blank">here http://www.reactivedevelopment.net/</a>. If you have questions or requests for this plugin go <a href="http://wordpress.org/support/plugin/featured-users-wordpress-plugin" target="_blank">here http://wordpress.org/support/plugin/featured-users-wordpress-plugin</a> for quick and paid support message us <a href="http://www.reactivedevelopment.net/contact/send-message/" target="_blank">here http://www.reactivedevelopment.net/contact/send-message/</a>.</p>
+
+                            <p><?php _e( 'Feel free to use and include in your WordPress Installs, please think of us if you need a custom theme or plugin developed! Use documented code examples on the settings page to modify the expected output.' ); ?></p>
                         
                         </div>    
                     </div></div>
                     
                     <!-- Settings -->
                     <div class="meta-box-sortables ui-sortable"><div class="postbox">    
-                        <h2><span>Settings</span></h2>            
+                        <h2><span><?php _e( 'Settings' ); ?></span></h2>            
                         <div class="inside">
 
-                            <p>WordPress started in 2003 with a single bit of code to enhance the typography of everyday writing and with fewer users than you can count on your fingers and toes. Since then it has grown to be the largest self-hosted blogging tool in the world, used on millions of sites and seen by tens of millions of people every day.</p>
+                            <p><?php _e( 'Use the form below to hide the settings page form the WordPress admin menu and to choose what roles are allowed to be featured.' ); ?></p>
                             <form action="options.php" method="post" id="rd_feat_settings">
 
                                 <p class="submit"><input type="submit" id="submit1" class="button delete" value="<?php _e( 'Save Settings' ); ?>"></p>
@@ -187,23 +190,27 @@
                     
                     <!-- Settings -->
                     <div class="meta-box-sortables ui-sortable"><div class="postbox">    
-                        <h2><span>Shortcode</span></h2>            
+                        <h2><span><?php _e( 'Shortcode' ); ?></span></h2>            
                         <div class="inside">
 
-                            <p>WordPress started in 2003 with a single bit of code to enhance the typography of everyday writing and with fewer users than you can count on your fingers and toes. Since then it has grown to be the largest self-hosted blogging tool in the world, used on millions of sites and seen by tens of millions of people every day.</p>
-                            
+                            <p><code>[rd-featured-users role="administrator,author" avatar="yes" max="100"]</code></p>
+                            <ol>
+                                <li><?php _e( 'role = A comma-separated list of roles of the users you want to include in the query. Note the settings page can override this. The default is all roles again unless the settings page specifies which to allow.' ); ?></li>
+                                <li><?php _e( 'avatar = Options are yes or no, specify whether to show or not show the users\' avatar image. The default is no.' ); ?></li>
+                                <li><?php _e( 'max = The maximum number of users to display.' ); ?></li>
+                            </ol>
 
                         </div>    
                     </div></div>
                     
                     <!-- Code Examples -->
                     <div class="meta-box-sortables ui-sortable"><div class="postbox">    
-                        <h2><span>Code Examples (For experienced developers ONLY!)</span></h2>            
+                        <h2><span><?php _e( 'Code Examples (For experienced developers ONLY!)' ); ?></span></h2>            
                         <div class="inside">
 
-                            <p>This plugin was originall developed for developers and the idea was to easily add to a theme or mu-plugins folder. Keeping that in mind here are some code exmaples a developer might find useful:</p>
+                            <p><?php _e( 'This plugin was originally developed for developers and the idea was to easily add to a theme or mu-plugins folder. Keeping that in mind here are some code examples a developer might find useful.' ); ?></p>
                             
-                            <p><strong>Use this function to change the CSS file that is used for the featured users plugin</strong></p>
+                            <p><strong><?php _e( 'Use this function to change the CSS file that is used for the featured users plugin' ); ?></strong></p>
                             <p>
                                 <code>
                                 /**<br />
@@ -220,7 +227,7 @@
                                 </code>
                             </p><br />
 
-                            <p><strong>Use this function to change the JS file that is used for the featured users plugin</strong></p>
+                            <p><strong><?php _e( 'Use this function to change the JS file that is used for the featured users plugin' ); ?> ?></strong></p>
                             <p>
                                 <code>
                                 /**<br />
@@ -237,7 +244,7 @@
                                 </code>
                             </p><br />
 
-                            <p><strong>Copy "featured_users.php" to mu-plugins or plugins folder and use this code to stop the featured users plugin from using its own CSS and JS includes</strong></p>
+                            <p><strong><?php _e( 'Copy "featured_users.php" to mu-plugins or plugins folder and use this code to stop the featured users plugin from using its own CSS and JS includes' ); ?></strong></p>
                             <p>
                                 <code>
                                 /**<br />
@@ -326,25 +333,31 @@
 
                     <!-- Developer -->
                     <div class="postbox">
-                        <h2><span>Developed by Jeremy Selph @</span></h2>
+                        <h2><span><?php _e( 'Developed by Jeremy Selph' ); ?> @</span></h2>
                         <div class="inside">
 
-                            <a href="https://www.reactivedevelopment.net" target="_blank" class="rdLogo">
+                            <a href="https://www.reactivedevelopment.net/" target="_blank" class="rdLogo">
                                 <img class="rdLogoImg" src="https://www.reactivedevelopment.net/wp-content/themes/reactive/img/reactive-development-web-development.png" alt="<?php _e( 'Web Development Experts' ); ?>">
                             </a>
-                            <p><strong>Reactive Development is a team of development experts, specializing in pixel perfect web development.</strong></p>
+                            <p><strong><?php _e( 'Reactive Development is a team of development experts, specializing in pixel perfect web development.' ); ?></strong></p>
                         
                         </div>
                     </div>
                     
                     <!-- Contact -->
                     <div class="postbox supportBox">
-                        <h2><span>Need Support or help?</span></h2>
+                        <h2><span><?php _e( 'Need Support or help?' );  ?></span></h2>
                         <div class="inside">
 
-                            <p>For questions or free support and after reading the documentaion on this page go <strong><a href="https://wordpress.org/support/plugin/featured-users-wordpress-plugin" target="_blank">here</strong></a>. Otherwise...</p>
-                            <p><img class="supportImg" src="<?php echo $this->_plugin_url . 'assets/support.jpg'; ?>" alt="<?php _e( 'Need support' ); ?>"></p>
-                            <p><strong>For paid or immediate support please go <a href="https://www.reactivedevelopment.net/contact/project-mind/?plugin=featured-users" target="_blank">here</a> to submit a request.</strong></p>
+                            <p><?php echo sprintf( 
+                                __( 'For questions or free support and after reading the &quot;How to&quot; section on this page go to %s. Otherwise...'),
+                                '<strong><a href="' . esc_url( 'https://wordpress.org/support/plugin/featured-users-wordpress-plugin' ) . '" target="_blank">' . esc_url( 'https://wordpress.org/support/plugin/featured-users-wordpress-plugin' ) . '</strong></a>'
+                            ); ?></p>
+                            <p><img class="supportImg" src="<?php echo 'https://www.reactivedevelopment.net/wp-content/themes/reactive/img/support.jpg'; ?>" alt="<?php _e( 'Need support' ); ?>"></p>
+                            <p><strong><?php echo sprintf( 
+                                __( 'For paid or immediate support please go to %s to submit a request.' ),
+                                '<a href="https://www.reactivedevelopment.net/contact/project-mind/?plugin=featured-users" target="_blank">https://www.reactivedevelopment.net/contact/project-mind/?plugin=featured-users</a>'
+                            ); ?></strong></p>
 
                         </div>
                     </div>
